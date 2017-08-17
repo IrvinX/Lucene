@@ -1,7 +1,12 @@
-.idea
-/index
+### Common ###
 /target
+
+### IntelliJ IDEA ###
+.idea
+*.iml
+
+### Lucene ###
+/index
 *.fdt
 *.fdx
-*.iml
 *.lock
