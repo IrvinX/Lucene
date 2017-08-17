@@ -1,0 +1,7 @@
+.idea
+/index
+/target
+*.fdt
+*.fdx
+*.iml
+*.lock
