@@ -12,7 +12,6 @@ import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
 import org.xml.sax.helpers.DefaultHandler;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ExecutorService;
@@ -26,7 +25,7 @@ import java.util.concurrent.Executors;
 @Component
 public class SaxXMLHandler extends DefaultHandler {
 
-	private static final int MAX_SIZE = 10;
+	private static final int MAX_SIZE = 1000;
 	private static Logger logger = LoggerFactory.getLogger(SaxXMLHandler.class);
 	@Autowired
 	IndexService indexService;
@@ -54,28 +53,28 @@ public class SaxXMLHandler extends DefaultHandler {
 	/*
 		Lucene IndexWriter
 	 */
-	private IndexWriter indexWriter;
+//	private IndexWriter indexWriter;
 	/*
 		线程池
 	 */
-	private ExecutorService singleThreadPool;
+	private ExecutorService cachedThreadPool;
 
 	public SaxXMLHandler() {
-		this.singleThreadPool = Executors.newSingleThreadExecutor();
-		try {
-			this.indexWriter = IndexUtil.getIndexWriter("index");
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+		this.cachedThreadPool = Executors.newFixedThreadPool(3);
+//		try {
+//			this.indexWriter = IndexUtil.getIndexWriter("index");
+//		} catch (IOException e) {
+//			e.printStackTrace();
+//		}
 	}
 
 	public Long getCount() {
 		return count;
 	}
 
-	public IndexWriter getIndexWriter() {
-		return indexWriter;
-	}
+//	public IndexWriter getIndexWriter() {
+//		return indexWriter;
+//	}
 
 	public List<Artical> getList() {
 		return list;
@@ -107,16 +106,30 @@ public class SaxXMLHandler extends DefaultHandler {
 		if (qName.equals("DOC")) {
 			this.list.add(this.artical);
 			count++;
+
+//			indexService.indexFiles(artical, indexWriter);
+//			if (0 == count % 100) {
+//				try {
+//					logger.info("索引条目:{}", count);
+//					logger.info("pre commit currentTimeMillis:{}", System.currentTimeMillis());
+//					indexWriter.commit();
+//					logger.info("post commit currentTimeMillis:{}", System.currentTimeMillis());
+//				} catch (IOException e) {
+//					e.printStackTrace();
+//				}
+//			}
 		}
+
 
 		if (MAX_SIZE == list.size()) {
 			List<Artical> threadList = new ArrayList<>();
 			threadList.addAll(list);
 			list.clear();
 
-			singleThreadPool.execute(() -> {
+			cachedThreadPool.execute(() -> {
 				try {
 					logger.info("*************** Thread ID:{}", Thread.currentThread().getId());
+					IndexWriter indexWriter = IndexUtil.getIndexWriter("index/" + Thread.currentThread().getId());
 					// 调 lucene 创建索引
 					indexService.indexFiles(threadList, indexWriter);
 				} catch (Exception e) {

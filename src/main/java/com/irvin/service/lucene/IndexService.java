@@ -34,4 +34,11 @@ public class IndexService {
         }
         logger.info("创建索引结束 \n 创建索引用时:{}ms", System.currentTimeMillis() - start);
     }
+
+    public void indexFiles(Artical artical, IndexWriter indexWriter) {
+        logger.info("开始创建索引...");
+        Long start = System.currentTimeMillis();
+        new ArticalIndex(indexWriter, artical).indexDoc();
+        logger.info("创建索引结束 \n 创建索引用时:{}ms", System.currentTimeMillis() - start);
+    }
 }

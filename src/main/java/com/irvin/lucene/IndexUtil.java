@@ -43,7 +43,7 @@ public class IndexUtil {
         值较大,适合批量建立索引和更快的搜索
         */
         mergePolicy.setMaxMergeDocs(5000);
-        iwc.setOpenMode(IndexWriterConfig.OpenMode.CREATE);
+        iwc.setOpenMode(IndexWriterConfig.OpenMode.CREATE_OR_APPEND);
         IndexWriter writer = new IndexWriter(dir, iwc);
         return writer;
     }

@@ -1,6 +1,6 @@
 package com.irvin.service.sax;
 
-import com.irvin.common.bean.Artical;
+import com.irvin.lucene.IndexUtil;
 import com.irvin.service.lucene.IndexService;
 import org.apache.lucene.index.IndexWriter;
 import org.slf4j.Logger;
@@ -15,7 +15,6 @@ import javax.xml.parsers.SAXParserFactory;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
-import java.util.List;
 
 /**
  * @author irvin
@@ -38,8 +37,9 @@ public class SaxXMLReader {
 	 */
 	public void xmlReader(String path) {
 
-		logger.info("开始读取 xml 文件 ...");
+		logger.info("开始读取 xml 文件 并创建索引 ...");
 		Long start = System.currentTimeMillis();
+		logger.info("start currentTimeMillis:{}", start);
 
 		SAXParser parser;
 		try {
@@ -50,15 +50,13 @@ public class SaxXMLReader {
 			//遍历结果
 			Long count = saxXMLHandler.getCount();
 			logger.info("总文件数量:{}", count);
-			List<Artical> list = saxXMLHandler.getList();
-
-			logger.info("文件读取结束 \n 读文件 用时:{}ms", System.currentTimeMillis() - start);
 
 			//最后一部分数据,调 lucene 创建索引
-			IndexWriter indexWriter = saxXMLHandler.getIndexWriter();
-			indexService.indexFiles(list, indexWriter);
-
-			logger.info("建索引 用时:{}ms", System.currentTimeMillis() - start);
+//			IndexWriter indexWriter = saxXMLHandler.getIndexWriter();
+			IndexWriter indexWriter = IndexUtil.getIndexWriter("index/" + Thread.currentThread().getId());
+			indexWriter.commit();
+			indexWriter.close();
+			logger.info("总用时:{}ms", System.currentTimeMillis() - start);
 		} catch (ParserConfigurationException | SAXException | IOException e) {
 			e.printStackTrace();
 		}
