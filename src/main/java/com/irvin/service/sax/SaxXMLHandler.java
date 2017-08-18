@@ -26,7 +26,7 @@ import java.util.concurrent.Executors;
 @Component
 public class SaxXMLHandler extends DefaultHandler {
 
-	private static final int MAX_SIZE = 256;
+	private static final int MAX_SIZE = 10;
 	private static Logger logger = LoggerFactory.getLogger(SaxXMLHandler.class);
 	@Autowired
 	IndexService indexService;
@@ -116,11 +116,10 @@ public class SaxXMLHandler extends DefaultHandler {
 
 			singleThreadPool.execute(() -> {
 				try {
+					logger.info("*************** Thread ID:{}", Thread.currentThread().getId());
 					// 调 lucene 创建索引
 					indexService.indexFiles(threadList, indexWriter);
-					indexWriter.commit();
-					indexWriter.close();
-				} catch (IOException e) {
+				} catch (Exception e) {
 					e.printStackTrace();
 				}
 			});

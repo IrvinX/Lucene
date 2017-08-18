@@ -20,7 +20,7 @@ import com.lucene.index.util.FileUtil;
 public class TestIndex {
     public static void main(String[] args) {
         try {
-            List<FileBean> fileBeans = FileUtil.getFolderFiles("C:\\Users\\lenovo\\Desktop\\lucene\\lucene-5.1.0");
+            List<FileBean> fileBeans = FileUtil.getFolderFiles("C:\\Users\\gaofang\\Desktop\\clinicalTrec1.xml");
             int totalCount = fileBeans.size();
             int perThreadCount = 3000;
             System.out.println("查询到的数据总数是"+fileBeans.size());

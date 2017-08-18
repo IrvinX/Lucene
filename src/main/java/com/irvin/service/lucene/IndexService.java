@@ -26,6 +26,12 @@ public class IndexService {
         logger.info("开始创建索引...");
         Long start = System.currentTimeMillis();
         articals.forEach(artical -> new ArticalIndex(indexWriter, artical).indexDoc());
+        try {
+            indexWriter.commit();
+            indexWriter.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         logger.info("创建索引结束 \n 创建索引用时:{}ms", System.currentTimeMillis() - start);
     }
 }
