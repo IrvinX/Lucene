@@ -10,3 +10,6 @@
 *.fdt
 *.fdx
 *.lock
+*.cfe
+*.cfs
+*.si
