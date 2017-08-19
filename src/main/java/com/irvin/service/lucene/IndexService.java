@@ -2,7 +2,6 @@ package com.irvin.service.lucene;
 
 import com.irvin.common.bean.Artical;
 import com.irvin.lucene.ArticalIndex;
-import com.irvin.lucene.IndexUtil;
 import org.apache.lucene.index.IndexWriter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

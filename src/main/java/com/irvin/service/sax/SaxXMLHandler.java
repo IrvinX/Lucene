@@ -1,7 +1,7 @@
 package com.irvin.service.sax;
 
 import com.irvin.common.bean.Artical;
-import com.irvin.lucene.IndexUtil;
+import com.irvin.lucene.LuceneUtils;
 import com.irvin.service.lucene.IndexService;
 import org.apache.lucene.index.IndexWriter;
 import org.slf4j.Logger;
@@ -104,7 +104,7 @@ public class SaxXMLHandler extends DefaultHandler {
 			cachedThreadPool.execute(() -> {
 				try {
 					logger.info("*************** Thread ID:{}", Thread.currentThread().getId());
-					IndexWriter indexWriter = IndexUtil.getIndexWriter("index/" + Thread.currentThread().getId());
+					IndexWriter indexWriter = LuceneUtils.getIndexWriter("index/" + Thread.currentThread().getId());
 					// 调 lucene 创建索引
 					indexService.indexFiles(threadList, indexWriter);
 				} catch (Exception e) {

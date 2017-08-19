@@ -1,6 +1,6 @@
 package com.irvin.service.sax;
 
-import com.irvin.lucene.IndexUtil;
+import com.irvin.lucene.LuceneUtils;
 import com.irvin.service.lucene.IndexService;
 import org.apache.lucene.index.IndexWriter;
 import org.slf4j.Logger;
@@ -53,7 +53,7 @@ public class SaxXMLReader {
 			logger.info("读文件用时:{}ms", System.currentTimeMillis() - start);
 
 			//最后一部分数据,调 lucene 创建索引
-			IndexWriter indexWriter = IndexUtil.getIndexWriter("index/" + Thread.currentThread().getId());
+			IndexWriter indexWriter = LuceneUtils.getIndexWriter("index/" + Thread.currentThread().getId());
 			indexWriter.commit();
 			indexWriter.close();
 			logger.info("总用时:{}ms", System.currentTimeMillis() - start);
