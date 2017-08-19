@@ -2,21 +2,15 @@ package com.irvin.lucene;
 
 import org.apache.lucene.analysis.Analyzer;
 import org.apache.lucene.analysis.standard.StandardAnalyzer;
-import org.apache.lucene.document.Document;
-import org.apache.lucene.index.*;
-import org.apache.lucene.search.IndexSearcher;
-import org.apache.lucene.search.Query;
-import org.apache.lucene.search.ScoreDoc;
-import org.apache.lucene.search.TopDocs;
+import org.apache.lucene.index.IndexWriter;
+import org.apache.lucene.index.IndexWriterConfig;
+import org.apache.lucene.index.LogByteSizeMergePolicy;
+import org.apache.lucene.index.LogMergePolicy;
 import org.apache.lucene.store.Directory;
 import org.apache.lucene.store.FSDirectory;
 
 import java.io.IOException;
 import java.nio.file.Paths;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.concurrent.ExecutorService;
 
 /**
  * @author irvin
@@ -24,7 +18,6 @@ import java.util.concurrent.ExecutorService;
  * @description Lucene工具类
  */
 public class LuceneUtils {
-	private volatile static IndexSearcher searcher;
 
 
 	/**
@@ -67,74 +60,9 @@ public class LuceneUtils {
 		FSDirectory directory = null;
 		try {
 			directory = FSDirectory.open(Paths.get(luceneDir));
-			/**
-			 * 注意：isLocked方法内部会试图去获取Lock,如果获取到Lock，会关闭它，否则return false表示索引目录没有被锁，
-			 * 这也就是为什么unlock方法被从IndexWriter类中移除的原因
-			 */
-			IndexWriter.isLocked(directory);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
 		return directory;
-	}
-
-	/**
-	 * 获取IndexSearcher(不支持多线程查询)
-	 *
-	 * @param reader IndexReader对象
-	 * @return
-	 */
-	public static IndexSearcher getIndexSearcher(IndexReader reader) {
-		if (null == reader) {
-			throw new IllegalArgumentException("The indexReader can not be null.");
-		}
-		if (null == searcher) {
-			searcher = new IndexSearcher(reader);
-		}
-		return searcher;
-	}
-
-	/**
-	 * 获取IndexSearcher(多线程查询)
-	 *
-	 * @param reader   IndexReader对象
-	 * @param executor
-	 * @return
-	 */
-	public static IndexSearcher getIndexSearcher(IndexReader reader, ExecutorService executor) {
-		if (null == reader) {
-			throw new IllegalArgumentException("The indexReader can not be null.");
-		}
-		if (null == searcher) {
-			searcher = new IndexSearcher(reader);
-		}
-		return searcher;
-	}
-
-	/**
-	 * 索引文档查询
-	 *
-	 * @param searcher
-	 * @param query
-	 * @return
-	 */
-	public static List<Document> query(IndexSearcher searcher, Query query) {
-		TopDocs topDocs;
-		List<Document> docList = new ArrayList<>();
-		try {
-			topDocs = searcher.search(query, Integer.MAX_VALUE);
-			ScoreDoc[] scores = topDocs.scoreDocs;
-			int length = scores.length;
-			if (length <= 0) {
-				return Collections.emptyList();
-			}
-			for (ScoreDoc score : scores) {
-				Document doc = searcher.doc(score.doc);
-				docList.add(doc);
-			}
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		return docList;
 	}
 }
