@@ -23,7 +23,7 @@ public class IndexService {
     private static final Logger logger = LoggerFactory.getLogger(IndexService.class);
 
     public void indexFiles(List<Artical> articals, IndexWriter indexWriter) {
-        logger.info("开始创建索引...");
+        logger.debug("开始创建索引...");
         Long start = System.currentTimeMillis();
         articals.forEach(artical -> new ArticalIndex(indexWriter, artical).indexDoc());
         try {
@@ -32,13 +32,13 @@ public class IndexService {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        logger.info("创建索引结束 \n 创建索引用时:{}ms", System.currentTimeMillis() - start);
+        logger.debug("创建索引结束 \n 创建索引用时:{}ms", System.currentTimeMillis() - start);
     }
 
     public void indexFiles(Artical artical, IndexWriter indexWriter) {
-        logger.info("开始创建索引...");
+        logger.debug("开始创建索引...");
         Long start = System.currentTimeMillis();
         new ArticalIndex(indexWriter, artical).indexDoc();
-        logger.info("创建索引结束 \n 创建索引用时:{}ms", System.currentTimeMillis() - start);
+        logger.debug("创建索引结束 \n 创建索引用时:{}ms", System.currentTimeMillis() - start);
     }
 }

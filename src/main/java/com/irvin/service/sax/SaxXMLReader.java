@@ -50,9 +50,9 @@ public class SaxXMLReader {
 			//遍历结果
 			Long count = saxXMLHandler.getCount();
 			logger.info("总文件数量:{}", count);
+			logger.info("读文件用时:{}ms", System.currentTimeMillis() - start);
 
 			//最后一部分数据,调 lucene 创建索引
-//			IndexWriter indexWriter = saxXMLHandler.getIndexWriter();
 			IndexWriter indexWriter = IndexUtil.getIndexWriter("index/" + Thread.currentThread().getId());
 			indexWriter.commit();
 			indexWriter.close();

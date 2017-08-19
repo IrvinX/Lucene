@@ -50,9 +50,9 @@ public class ArticalIndex {
 		if (null != t.getHealthyVolunteers())
 			doc.add(new StringField("healthy_volunteers", t.getHealthyVolunteers(), Field.Store.NO));
 //		if (null != t.getTextblocks())
-//			doc.add(new TextField("textblock", t.getTextblocks().toString(), Field.Store.NO));
+//			doc.add(new TextField("textblock", t.getTextblocks(), Field.Store.NO));
 //		if (null != t.getMeshTerms())
-//			doc.add(new TextField("mesh_term", t.getMeshTerms().toString(), Field.Store.NO));
+//			doc.add(new TextField("mesh_term", t.getMeshTerms(), Field.Store.NO));
 		if (null != t.getContent())
 			doc.add(new TextField("content", t.getContent(), Field.Store.NO));
 		try {

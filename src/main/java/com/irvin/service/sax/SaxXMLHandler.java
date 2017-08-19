@@ -25,7 +25,7 @@ import java.util.concurrent.Executors;
 @Component
 public class SaxXMLHandler extends DefaultHandler {
 
-	private static final int MAX_SIZE = 1000;
+	private static final int MAX_SIZE = 1024;
 	private static Logger logger = LoggerFactory.getLogger(SaxXMLHandler.class);
 	@Autowired
 	IndexService indexService;
@@ -51,30 +51,17 @@ public class SaxXMLHandler extends DefaultHandler {
 	 */
 	private Long count = 0L;
 	/*
-		Lucene IndexWriter
-	 */
-//	private IndexWriter indexWriter;
-	/*
 		线程池
 	 */
 	private ExecutorService cachedThreadPool;
 
 	public SaxXMLHandler() {
-		this.cachedThreadPool = Executors.newFixedThreadPool(3);
-//		try {
-//			this.indexWriter = IndexUtil.getIndexWriter("index");
-//		} catch (IOException e) {
-//			e.printStackTrace();
-//		}
+		this.cachedThreadPool = Executors.newFixedThreadPool(4);
 	}
 
 	public Long getCount() {
 		return count;
 	}
-
-//	public IndexWriter getIndexWriter() {
-//		return indexWriter;
-//	}
 
 	public List<Artical> getList() {
 		return list;
@@ -106,18 +93,6 @@ public class SaxXMLHandler extends DefaultHandler {
 		if (qName.equals("DOC")) {
 			this.list.add(this.artical);
 			count++;
-
-//			indexService.indexFiles(artical, indexWriter);
-//			if (0 == count % 100) {
-//				try {
-//					logger.info("索引条目:{}", count);
-//					logger.info("pre commit currentTimeMillis:{}", System.currentTimeMillis());
-//					indexWriter.commit();
-//					logger.info("post commit currentTimeMillis:{}", System.currentTimeMillis());
-//				} catch (IOException e) {
-//					e.printStackTrace();
-//				}
-//			}
 		}
 
 

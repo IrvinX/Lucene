@@ -26,7 +26,7 @@ public class FileReaderTest {
     @Test
     public void readXML(){
         logger.info("FileReaderTest -> readXML started.");
-        String path="C:\\Users\\gaofang\\Desktop\\clinicalTrec1.xml";
+        String path="/Users/irvin/Desktop/clinicalTrec1.xml";
         saxXMLReader.xmlReader(path);
         logger.info("FileReaderTest -> readXML finished.");
     }
