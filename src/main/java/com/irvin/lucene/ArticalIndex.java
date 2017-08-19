@@ -29,7 +29,8 @@ public class ArticalIndex {
 		Document doc = new Document();
 		if (null != t.getDocNo())
 			doc.add(new StringField("DOCNO", t.getDocNo(), Field.Store.YES));
-		if (null != t.getBriefTitle())
+		doc.add(new StringField("CONTENT", t.toString(), Field.Store.NO));
+		/*if (null != t.getBriefTitle())
 			doc.add(new StringField("brief_title", t.getBriefTitle(), Field.Store.NO));
 		if (null != t.getCondition())
 			doc.add(new StringField("condition", t.getCondition(), Field.Store.NO));
@@ -54,7 +55,7 @@ public class ArticalIndex {
 //		if (null != t.getMeshTerms())
 //			doc.add(new TextField("mesh_term", t.getMeshTerms(), Field.Store.NO));
 		if (null != t.getContent())
-			doc.add(new TextField("content", t.getContent(), Field.Store.NO));
+			doc.add(new TextField("content", t.getContent(), Field.Store.NO));*/
 		try {
 			writer.addDocument(doc);
 		} catch (IOException e) {

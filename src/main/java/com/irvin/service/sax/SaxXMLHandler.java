@@ -36,8 +36,8 @@ public class SaxXMLHandler extends DefaultHandler {
 	/*
 		Article 内部属性
 	 */
-	private List<String> meshTerms = new ArrayList<>();
-	private List<String> textblocks = new ArrayList<>();
+	/*private List<String> meshTerms = new ArrayList<>();
+	private List<String> textblocks = new ArrayList<>();*/
 	/*
 		构建 Artical 对象
 	 */
@@ -148,13 +148,13 @@ public class SaxXMLHandler extends DefaultHandler {
 				this.artical.setMaximumAge(data);
 			} else if (this.tagName.equals("healthy_volunteers")) {
 				this.artical.setHealthyVolunteers(data);
-			} else if (this.tagName.equals("mesh_term")) {
+			}/* else if (this.tagName.equals("mesh_term")) {
 				meshTerms.add(data);
 				this.artical.setMeshTerms(meshTerms);
 			} else if (this.tagName.equals("textblock")) {
 				textblocks.add(data);
 				this.artical.setTextblocks(textblocks);
-			}
+			}*/
 		}
 	}
 }

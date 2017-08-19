@@ -1,9 +1,6 @@
 package com.irvin.common.bean;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -18,6 +15,7 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
+@ToString
 public class Artical implements Serializable {
 
     private static final long serialVersionUID = -5560135572832498230L;
@@ -26,12 +24,12 @@ public class Artical implements Serializable {
     private String condition;
     private String title;
     private String content;
-    private List<String> meshTerms = new ArrayList<>();
+    /*private List<String> meshTerms = new ArrayList<>();*/
     private String interventionType;
     private String interventionName;
     private String description;
     private String armGroupLabel;
-    private List<String> textblocks = new ArrayList<>();
+    /*private List<String> textblocks = new ArrayList<>();*/
     private String gender;
     private String minimumAge;
     private String maximumAge;
