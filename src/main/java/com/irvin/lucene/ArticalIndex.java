@@ -1,11 +1,9 @@
 package com.irvin.lucene;
 
-import com.alibaba.fastjson.JSONArray;
 import com.irvin.common.bean.Artical;
 import org.apache.lucene.document.Document;
 import org.apache.lucene.document.Field;
 import org.apache.lucene.document.StringField;
-import org.apache.lucene.document.TextField;
 import org.apache.lucene.index.IndexWriter;
 
 import java.io.IOException;
