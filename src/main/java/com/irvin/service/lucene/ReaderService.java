@@ -110,8 +110,8 @@ public class ReaderService {
 			return;
 		}
 		for (Document doc : list) {
-			String path = doc.get("path");
-			System.out.println("path:" + path);
+			String docNo = doc.get("DOCNO");
+			System.out.println("DOCNO:" + docNo);
 		}
 	}
 }
