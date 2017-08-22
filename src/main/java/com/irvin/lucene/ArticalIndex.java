@@ -4,6 +4,7 @@ import com.irvin.common.bean.Artical;
 import org.apache.lucene.document.Document;
 import org.apache.lucene.document.Field;
 import org.apache.lucene.document.StringField;
+import org.apache.lucene.document.TextField;
 import org.apache.lucene.index.IndexWriter;
 
 import java.io.IOException;
@@ -27,7 +28,7 @@ public class ArticalIndex {
 		Document doc = new Document();
 		if (null != t.getDocNo())
 			doc.add(new StringField("DOCNO", t.getDocNo(), Field.Store.YES));
-		doc.add(new StringField("CONTENT", t.toString(), Field.Store.NO));
+		doc.add(new TextField("CONTENT", t.toString(), Field.Store.YES));
 		/*if (null != t.getBriefTitle())
 			doc.add(new StringField("brief_title", t.getBriefTitle(), Field.Store.NO));
 		if (null != t.getCondition())
