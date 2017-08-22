@@ -53,7 +53,7 @@ public class ReaderService {
 		final Query query = new TermQuery(new Term("contents", "volatile"));
 		List<Future<List<Document>>> futures = new ArrayList<>(count);
 		for (int i = 0; i < count; i++) {
-			futures.add(pool.submit(() -> query(indexSearcher, query)));
+			futures.add(pool.submit(() -> LuceneUtils.query(indexSearcher, query)));
 		}
 
 		int t = 0;
@@ -81,33 +81,6 @@ public class ReaderService {
 	}
 
 	/**
-	 * 索引文档查询
-	 *
-	 * @param searcher
-	 * @param query
-	 * @return
-	 */
-	public static List<Document> query(IndexSearcher searcher, Query query) {
-		TopDocs topDocs;
-		List<Document> docList = new ArrayList<>();
-		try {
-			topDocs = searcher.search(query, Integer.MAX_VALUE);
-			ScoreDoc[] scores = topDocs.scoreDocs;
-			int length = scores.length;
-			if (length <= 0) {
-				return Collections.emptyList();
-			}
-			for (ScoreDoc score : scores) {
-				Document doc = searcher.doc(score.doc);
-				docList.add(doc);
-			}
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		return docList;
-	}
-
-	/**
 	 * 多索引目录查询
 	 *
 	 * @throws InterruptedException
@@ -131,7 +104,7 @@ public class ReaderService {
 
 		MultiReader multiReader = new MultiReader(readers.toArray(new IndexReader[readers.size()]), true);
 		IndexSearcher indexSearcher = new IndexSearcher(multiReader);
-		List<Document> list = query(indexSearcher, query);
+		List<Document> list = LuceneUtils.query(indexSearcher, query);
 		if (null == list || list.size() <= 0) {
 			System.out.println("No results.");
 			return;

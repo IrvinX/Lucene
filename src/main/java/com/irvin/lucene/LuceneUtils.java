@@ -2,15 +2,23 @@ package com.irvin.lucene;
 
 import org.apache.lucene.analysis.Analyzer;
 import org.apache.lucene.analysis.standard.StandardAnalyzer;
+import org.apache.lucene.document.Document;
 import org.apache.lucene.index.IndexWriter;
 import org.apache.lucene.index.IndexWriterConfig;
 import org.apache.lucene.index.LogByteSizeMergePolicy;
 import org.apache.lucene.index.LogMergePolicy;
+import org.apache.lucene.search.IndexSearcher;
+import org.apache.lucene.search.Query;
+import org.apache.lucene.search.ScoreDoc;
+import org.apache.lucene.search.TopDocs;
 import org.apache.lucene.store.Directory;
 import org.apache.lucene.store.FSDirectory;
 
 import java.io.IOException;
 import java.nio.file.Paths;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 /**
  * @author irvin
@@ -64,5 +72,33 @@ public class LuceneUtils {
 			e.printStackTrace();
 		}
 		return directory;
+	}
+
+
+	/**
+	 * 索引文档查询
+	 *
+	 * @param searcher
+	 * @param query
+	 * @return
+	 */
+	public static List<Document> query(IndexSearcher searcher, Query query) {
+		TopDocs topDocs;
+		List<Document> docList = new ArrayList<>();
+		try {
+			topDocs = searcher.search(query, Integer.MAX_VALUE);
+			ScoreDoc[] scores = topDocs.scoreDocs;
+			int length = scores.length;
+			if (length <= 0) {
+				return Collections.emptyList();
+			}
+			for (ScoreDoc score : scores) {
+				Document doc = searcher.doc(score.doc);
+				docList.add(doc);
+			}
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		return docList;
 	}
 }
